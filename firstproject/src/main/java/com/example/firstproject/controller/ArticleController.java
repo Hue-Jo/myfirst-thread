@@ -39,7 +39,7 @@ public class ArticleController {
         //System.out.println(saved.toString());
         log.info(saved.toString());
 
-        return "";
+        return "redirect:/articles/" + saved.getId(); // 리다이렉트를 작성할 위치
     }
 
     @GetMapping("/articles/{id}")
