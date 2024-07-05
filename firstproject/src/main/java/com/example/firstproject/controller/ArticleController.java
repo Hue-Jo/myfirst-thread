@@ -16,6 +16,7 @@ import java.util.ArrayList;
 @Slf4j
 @Controller
 public class ArticleController {
+
     @Autowired  // 리파지토리 구현객체 주입
     private ArticleRepository articleRepository;
 
@@ -29,7 +30,6 @@ public class ArticleController {
         //System.out.println(form.toString()); // DTO에 폼 데이터가 잘 들어갔는지 확인
         log.info(form.toString());
         // 1. DTO를 엔티티로 변환
-
         Article article = form.toEntity();
         //System.out.println(article.toString());
         log.info(article.toString());
@@ -72,7 +72,11 @@ public class ArticleController {
 
         // 모든 데이터 가져오기
         ArrayList<Article> articleEntityList = articleRepository.findAll();
+
+        // 모델에 가져온 데이터들 등록하기
         model.addAttribute("articleList", articleEntityList);
+
+        // 뷰 페이지 리턴
         return "articles/index";
     }
 
