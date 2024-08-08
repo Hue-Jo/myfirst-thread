@@ -1,11 +1,13 @@
 package com.example.firstproject.service;
 
 import com.example.firstproject.dto.CommentDto;
+import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.Comment;
 import com.example.firstproject.repository.ArticleRepository;
 import com.example.firstproject.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +37,15 @@ public class CommentService {
                 .stream() // 엔티티 목록을 스트림으로 변환
                 .map(comment -> CommentDto.createCommentDto(comment)) // 엔티티를 Dto로 매핑
                 .collect(Collectors.toList()); // 스트림을 리스트로 반환
+    }
+
+    @Transactional
+    public CommentDto create(Long articleId, CommentDto dto) {
+
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않아 댓글 작성에 실패했습니다."));
+        Comment comment = Comment.createComment(dto, article);
+        Comment created = commentRepository.save(comment);
+        return CommentDto.createCommentDto(comment);
     }
 }
