@@ -19,7 +19,7 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="article_id")
+    @JoinColumn(name = "article_id")
     private Article article;
 
     @Column
@@ -40,5 +40,17 @@ public class Comment {
                 dto.getNickname(), // 댓글 닉네임
                 dto.getBody() // 댓글 본문
         );
+    }
+
+    public void patch(CommentDto dto) {
+        if (this.id != dto.getId()) {
+            throw new IllegalArgumentException("잘못된 id가 입력됐습니다.");
+        }
+        if (dto.getNickname() != null) {
+            this.nickname = dto.getNickname();
+        }
+        if (dto.getBody() != null) {
+            this.body = dto.getBody();
+        }
     }
 }
