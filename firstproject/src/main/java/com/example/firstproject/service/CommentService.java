@@ -57,4 +57,11 @@ public class CommentService {
         Comment updated = commentRepository.save(target);
         return CommentDto.createCommentDto(updated);
     }
+
+    public CommentDto delete(Long id) {
+        Comment target = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("삭제할 댓글이 존재하지 않습니다."));
+        commentRepository.delete(target);
+        return CommentDto.createCommentDto(target);
+    }
 }
