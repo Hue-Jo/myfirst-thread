@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +45,7 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않아 댓글 작성에 실패했습니다."));
         Comment comment = Comment.createComment(dto, article);
         Comment created = commentRepository.save(comment);
-        return CommentDto.createCommentDto(comment);
+        return CommentDto.createCommentDto(created);
     }
 
     @Transactional

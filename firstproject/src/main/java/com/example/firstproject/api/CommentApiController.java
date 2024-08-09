@@ -1,7 +1,6 @@
 package com.example.firstproject.api;
 
 import com.example.firstproject.dto.CommentDto;
-import com.example.firstproject.entity.Comment;
 import com.example.firstproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,8 @@ public class CommentApiController {
 
     // 댓글 생성
     @PostMapping("/api/articles/{articleId}/comments")
-    public ResponseEntity<CommentDto> createComment(@PathVariable Long articleId,
-                                                    @RequestBody CommentDto dto) {
+    public ResponseEntity<CommentDto> create(@PathVariable Long articleId,
+                                             @RequestBody CommentDto dto) {
         CommentDto createdDto = commentService.create(articleId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(createdDto);
     }
