@@ -12,7 +12,13 @@
                         data-bs-nickname="{{nickname}}"
                         data-bs-body="{{body}}"
                         data-bs-article-id="{{articleId}}">
-                    수정</button>
+                    수정
+                </button>
+                <button type="button"
+                        class="btn btn-sm btn-outline-danger comment-delete-btn"
+                        data-comment-id="{{id}}">
+                    삭제
+                </button>
             </div>
             <div class="card-body">
                 {{body}}
@@ -39,7 +45,7 @@
                     <div class="mb-3">
                         <label class="form-label">닉네임</label>
                         <input type="text" class="form-control"
-                        id="edit-comment-nickname">
+                               id="edit-comment-nickname">
                     </div>
                     <!--댓글 본문 입력-->
                     <div class="mb-3">
@@ -52,7 +58,8 @@
                     <input type="hidden" id="edit-comment-article-id">
                     <!-- 전송 버튼 -->
                     <button type="button" class="btn btn-primary"
-                            id="comment-update-btn">수정 완료</button>
+                            id="comment-update-btn">수정 완료
+                    </button>
                 </form>
             </div>
         </div>
@@ -94,7 +101,7 @@
             fetch(url, {
                 method: "PATCH",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(comment)
             }).then(response => {
@@ -104,5 +111,41 @@
             })
         });
     }
+</script>
 
+<!-- 댓글 삭제 -->
+<script>
+    {
+        // 삭제버튼 선택
+        const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+        // commentDeleteBtns.addEventListener("click",function (){
+        //     console.log("삭제버튼이 클릭됐습니다.")
+        // })
+        commentDeleteBtns.forEach(btn => {
+            btn.addEventListener("click", (event) => { // event 객체 받아오기
+                // 이벤트 발생요소 선택
+                const commentDeleteBtn = event.target; // 삭제 버튼 변수화
+                const commentId = commentDeleteBtn.getAttribute("data-comment-id"); // id 가져오기
+                console.log(`삭제버튼 틀릭: ${commentId}번 댓글`); // 콘솔 로그 출력
+                // 삭제 REST API 호출
+                const url = `/api/comments/${commentId}`;
+                fetch(url, {
+                            method: "DELETE"
+                        }
+                ).then(response => {
+                    // 댓글 삭제 실패
+                    if (!response.ok) {
+                        alert("댓글 삭제 실패");
+                        return;
+                    }
+                    // 댓글 삭제 성공
+                    const msg = `${commentId}번 댓글을 삭제했습니다.`
+                    alert(msg);
+                    // 새로고침
+                    window.location.reload()
+                })
+
+            });
+        });
+    }
 </script>
